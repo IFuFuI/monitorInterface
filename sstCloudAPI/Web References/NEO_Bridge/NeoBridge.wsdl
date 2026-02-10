@@ -1,0 +1,695 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:element name="ahorroAbonoCambioPend">
+        <s:complexType />
+      </s:element>
+      <s:element name="ahorroAbonoCambioPendResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ahorroAbonoCambioPendResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ahorroAbono">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="strURLWS" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strNum_Socio" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strMonto" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strIdUser" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strClave" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strDispositivo" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="folioPDA" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strCambio" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ahorroAbonoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ahorroAbonoResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ahorroConsulta">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="strURLWS" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strNum_Socio" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strIdUser" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strDispositivo" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ahorroConsultaResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ahorroConsultaResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="reversoCambioError">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="strURLWS" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strNumSocio" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strCambio" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strFolioAut" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strDispositivo" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="reversoCambioErrorResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="reversoCambioErrorResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="creditoPagoOff">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="strUrlWs" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="xml" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="creditoPagoOffResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="creditoPagoOffResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ahorroAbonoOFF">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="strUrlWs" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="xml" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ahorroAbonoOFFResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ahorroAbonoOFFResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="creditoConsulta">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="strURLWS" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strNumSocio" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strNumPrestamo" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="creditoConsultaResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="creditoConsultaResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="creditoPago">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="strURLWS" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strNumSocio" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strNumCta" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strMonto" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strMontoTotal" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strCambio" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strUserID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strClave" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strDispositivo" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="folioPDA" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="creditoPagoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="creditoPagoResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="consultaSocio">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="strURLWS" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strNumTarjeta" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="consultaSocioResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="consultaSocioResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="consultaCreditosDisponibles">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="strURLWS" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strNumSocio" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="consultaCreditosDisponiblesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="consultaCreditosDisponiblesResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="revisaOperacion">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="strURLWS" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strNumFolio" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="revisaOperacionResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="revisaOperacionResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="validaSocio">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="strURLWS" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strNumSocio" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="validaSocioResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="validaSocioResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="insertTxn_Monitor">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="strURLWS" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strIdAtm" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strFecha" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strHora" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strNumTarjeta" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strMonto" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strTipo" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="insertTxn_MonitorResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="insertTxn_MonitorResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="insertTxnRev_Monitor">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="strURLWS" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strIdAtm" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strFecha" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strHora" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strNumTarjeta" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strMonto" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="insertTxnRev_MonitorResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="insertTxnRev_MonitorResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="insertDotacion_Monitor">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="strURLWS" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strIdAtm" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strFecha" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strHora" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strMontoDot" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="insertDotacion_MonitorResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="insertDotacion_MonitorResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="ahorroAbonoCambioPendSoapIn">
+    <wsdl:part name="parameters" element="tns:ahorroAbonoCambioPend" />
+  </wsdl:message>
+  <wsdl:message name="ahorroAbonoCambioPendSoapOut">
+    <wsdl:part name="parameters" element="tns:ahorroAbonoCambioPendResponse" />
+  </wsdl:message>
+  <wsdl:message name="ahorroAbonoSoapIn">
+    <wsdl:part name="parameters" element="tns:ahorroAbono" />
+  </wsdl:message>
+  <wsdl:message name="ahorroAbonoSoapOut">
+    <wsdl:part name="parameters" element="tns:ahorroAbonoResponse" />
+  </wsdl:message>
+  <wsdl:message name="ahorroConsultaSoapIn">
+    <wsdl:part name="parameters" element="tns:ahorroConsulta" />
+  </wsdl:message>
+  <wsdl:message name="ahorroConsultaSoapOut">
+    <wsdl:part name="parameters" element="tns:ahorroConsultaResponse" />
+  </wsdl:message>
+  <wsdl:message name="reversoCambioErrorSoapIn">
+    <wsdl:part name="parameters" element="tns:reversoCambioError" />
+  </wsdl:message>
+  <wsdl:message name="reversoCambioErrorSoapOut">
+    <wsdl:part name="parameters" element="tns:reversoCambioErrorResponse" />
+  </wsdl:message>
+  <wsdl:message name="creditoPagoOffSoapIn">
+    <wsdl:part name="parameters" element="tns:creditoPagoOff" />
+  </wsdl:message>
+  <wsdl:message name="creditoPagoOffSoapOut">
+    <wsdl:part name="parameters" element="tns:creditoPagoOffResponse" />
+  </wsdl:message>
+  <wsdl:message name="ahorroAbonoOFFSoapIn">
+    <wsdl:part name="parameters" element="tns:ahorroAbonoOFF" />
+  </wsdl:message>
+  <wsdl:message name="ahorroAbonoOFFSoapOut">
+    <wsdl:part name="parameters" element="tns:ahorroAbonoOFFResponse" />
+  </wsdl:message>
+  <wsdl:message name="creditoConsultaSoapIn">
+    <wsdl:part name="parameters" element="tns:creditoConsulta" />
+  </wsdl:message>
+  <wsdl:message name="creditoConsultaSoapOut">
+    <wsdl:part name="parameters" element="tns:creditoConsultaResponse" />
+  </wsdl:message>
+  <wsdl:message name="creditoPagoSoapIn">
+    <wsdl:part name="parameters" element="tns:creditoPago" />
+  </wsdl:message>
+  <wsdl:message name="creditoPagoSoapOut">
+    <wsdl:part name="parameters" element="tns:creditoPagoResponse" />
+  </wsdl:message>
+  <wsdl:message name="consultaSocioSoapIn">
+    <wsdl:part name="parameters" element="tns:consultaSocio" />
+  </wsdl:message>
+  <wsdl:message name="consultaSocioSoapOut">
+    <wsdl:part name="parameters" element="tns:consultaSocioResponse" />
+  </wsdl:message>
+  <wsdl:message name="consultaCreditosDisponiblesSoapIn">
+    <wsdl:part name="parameters" element="tns:consultaCreditosDisponibles" />
+  </wsdl:message>
+  <wsdl:message name="consultaCreditosDisponiblesSoapOut">
+    <wsdl:part name="parameters" element="tns:consultaCreditosDisponiblesResponse" />
+  </wsdl:message>
+  <wsdl:message name="revisaOperacionSoapIn">
+    <wsdl:part name="parameters" element="tns:revisaOperacion" />
+  </wsdl:message>
+  <wsdl:message name="revisaOperacionSoapOut">
+    <wsdl:part name="parameters" element="tns:revisaOperacionResponse" />
+  </wsdl:message>
+  <wsdl:message name="validaSocioSoapIn">
+    <wsdl:part name="parameters" element="tns:validaSocio" />
+  </wsdl:message>
+  <wsdl:message name="validaSocioSoapOut">
+    <wsdl:part name="parameters" element="tns:validaSocioResponse" />
+  </wsdl:message>
+  <wsdl:message name="insertTxn_MonitorSoapIn">
+    <wsdl:part name="parameters" element="tns:insertTxn_Monitor" />
+  </wsdl:message>
+  <wsdl:message name="insertTxn_MonitorSoapOut">
+    <wsdl:part name="parameters" element="tns:insertTxn_MonitorResponse" />
+  </wsdl:message>
+  <wsdl:message name="insertTxnRev_MonitorSoapIn">
+    <wsdl:part name="parameters" element="tns:insertTxnRev_Monitor" />
+  </wsdl:message>
+  <wsdl:message name="insertTxnRev_MonitorSoapOut">
+    <wsdl:part name="parameters" element="tns:insertTxnRev_MonitorResponse" />
+  </wsdl:message>
+  <wsdl:message name="insertDotacion_MonitorSoapIn">
+    <wsdl:part name="parameters" element="tns:insertDotacion_Monitor" />
+  </wsdl:message>
+  <wsdl:message name="insertDotacion_MonitorSoapOut">
+    <wsdl:part name="parameters" element="tns:insertDotacion_MonitorResponse" />
+  </wsdl:message>
+  <wsdl:portType name="NeoBridgeSoap">
+    <wsdl:operation name="ahorroAbonoCambioPend">
+      <wsdl:input message="tns:ahorroAbonoCambioPendSoapIn" />
+      <wsdl:output message="tns:ahorroAbonoCambioPendSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ahorroAbono">
+      <wsdl:input message="tns:ahorroAbonoSoapIn" />
+      <wsdl:output message="tns:ahorroAbonoSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ahorroConsulta">
+      <wsdl:input message="tns:ahorroConsultaSoapIn" />
+      <wsdl:output message="tns:ahorroConsultaSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="reversoCambioError">
+      <wsdl:input message="tns:reversoCambioErrorSoapIn" />
+      <wsdl:output message="tns:reversoCambioErrorSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="creditoPagoOff">
+      <wsdl:input message="tns:creditoPagoOffSoapIn" />
+      <wsdl:output message="tns:creditoPagoOffSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ahorroAbonoOFF">
+      <wsdl:input message="tns:ahorroAbonoOFFSoapIn" />
+      <wsdl:output message="tns:ahorroAbonoOFFSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="creditoConsulta">
+      <wsdl:input message="tns:creditoConsultaSoapIn" />
+      <wsdl:output message="tns:creditoConsultaSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="creditoPago">
+      <wsdl:input message="tns:creditoPagoSoapIn" />
+      <wsdl:output message="tns:creditoPagoSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="consultaSocio">
+      <wsdl:input message="tns:consultaSocioSoapIn" />
+      <wsdl:output message="tns:consultaSocioSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="consultaCreditosDisponibles">
+      <wsdl:input message="tns:consultaCreditosDisponiblesSoapIn" />
+      <wsdl:output message="tns:consultaCreditosDisponiblesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="revisaOperacion">
+      <wsdl:input message="tns:revisaOperacionSoapIn" />
+      <wsdl:output message="tns:revisaOperacionSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="validaSocio">
+      <wsdl:input message="tns:validaSocioSoapIn" />
+      <wsdl:output message="tns:validaSocioSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="insertTxn_Monitor">
+      <wsdl:input message="tns:insertTxn_MonitorSoapIn" />
+      <wsdl:output message="tns:insertTxn_MonitorSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="insertTxnRev_Monitor">
+      <wsdl:input message="tns:insertTxnRev_MonitorSoapIn" />
+      <wsdl:output message="tns:insertTxnRev_MonitorSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="insertDotacion_Monitor">
+      <wsdl:input message="tns:insertDotacion_MonitorSoapIn" />
+      <wsdl:output message="tns:insertDotacion_MonitorSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="NeoBridgeSoap" type="tns:NeoBridgeSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="ahorroAbonoCambioPend">
+      <soap:operation soapAction="http://tempuri.org/ahorroAbonoCambioPend" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ahorroAbono">
+      <soap:operation soapAction="http://tempuri.org/ahorroAbono" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ahorroConsulta">
+      <soap:operation soapAction="http://tempuri.org/ahorroConsulta" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="reversoCambioError">
+      <soap:operation soapAction="http://tempuri.org/reversoCambioError" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="creditoPagoOff">
+      <soap:operation soapAction="http://tempuri.org/creditoPagoOff" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ahorroAbonoOFF">
+      <soap:operation soapAction="http://tempuri.org/ahorroAbonoOFF" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="creditoConsulta">
+      <soap:operation soapAction="http://tempuri.org/creditoConsulta" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="creditoPago">
+      <soap:operation soapAction="http://tempuri.org/creditoPago" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="consultaSocio">
+      <soap:operation soapAction="http://tempuri.org/consultaSocio" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="consultaCreditosDisponibles">
+      <soap:operation soapAction="http://tempuri.org/consultaCreditosDisponibles" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="revisaOperacion">
+      <soap:operation soapAction="http://tempuri.org/revisaOperacion" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="validaSocio">
+      <soap:operation soapAction="http://tempuri.org/validaSocio" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="insertTxn_Monitor">
+      <soap:operation soapAction="http://tempuri.org/insertTxn_Monitor" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="insertTxnRev_Monitor">
+      <soap:operation soapAction="http://tempuri.org/insertTxnRev_Monitor" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="insertDotacion_Monitor">
+      <soap:operation soapAction="http://tempuri.org/insertDotacion_Monitor" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="NeoBridgeSoap12" type="tns:NeoBridgeSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="ahorroAbonoCambioPend">
+      <soap12:operation soapAction="http://tempuri.org/ahorroAbonoCambioPend" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ahorroAbono">
+      <soap12:operation soapAction="http://tempuri.org/ahorroAbono" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ahorroConsulta">
+      <soap12:operation soapAction="http://tempuri.org/ahorroConsulta" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="reversoCambioError">
+      <soap12:operation soapAction="http://tempuri.org/reversoCambioError" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="creditoPagoOff">
+      <soap12:operation soapAction="http://tempuri.org/creditoPagoOff" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ahorroAbonoOFF">
+      <soap12:operation soapAction="http://tempuri.org/ahorroAbonoOFF" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="creditoConsulta">
+      <soap12:operation soapAction="http://tempuri.org/creditoConsulta" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="creditoPago">
+      <soap12:operation soapAction="http://tempuri.org/creditoPago" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="consultaSocio">
+      <soap12:operation soapAction="http://tempuri.org/consultaSocio" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="consultaCreditosDisponibles">
+      <soap12:operation soapAction="http://tempuri.org/consultaCreditosDisponibles" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="revisaOperacion">
+      <soap12:operation soapAction="http://tempuri.org/revisaOperacion" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="validaSocio">
+      <soap12:operation soapAction="http://tempuri.org/validaSocio" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="insertTxn_Monitor">
+      <soap12:operation soapAction="http://tempuri.org/insertTxn_Monitor" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="insertTxnRev_Monitor">
+      <soap12:operation soapAction="http://tempuri.org/insertTxnRev_Monitor" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="insertDotacion_Monitor">
+      <soap12:operation soapAction="http://tempuri.org/insertDotacion_Monitor" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="NeoBridge">
+    <wsdl:port name="NeoBridgeSoap" binding="tns:NeoBridgeSoap">
+      <soap:address location="http://172.16.1.10:8889/NeoBridge.asmx" />
+    </wsdl:port>
+    <wsdl:port name="NeoBridgeSoap12" binding="tns:NeoBridgeSoap12">
+      <soap12:address location="http://172.16.1.10:8889/NeoBridge.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

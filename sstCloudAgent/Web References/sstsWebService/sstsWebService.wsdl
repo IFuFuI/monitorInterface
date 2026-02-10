@@ -1,0 +1,936 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:element name="getPendingJobsCount">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="customerID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="deviceId" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getPendingJobsCountResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="getPendingJobsCountResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="updateJobState">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="customerID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="idJob" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="idJobState" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="idDevice" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="updateJobStateResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="updateJobStateResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getPendingJobsInfo">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="customerID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="deviceId" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getPendingJobsInfoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="getPendingJobsInfoResult" type="tns:P_Jobs" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="P_Jobs">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="lJobs" type="tns:ArrayOfP_Job" />
+          <s:element minOccurs="1" maxOccurs="1" name="iResp" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfP_Job">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="P_Job" nillable="true" type="tns:P_Job" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="P_Job">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="bCan_Replace_Files" type="s:boolean" />
+          <s:element minOccurs="0" maxOccurs="1" name="Client_Destination_Path" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="jobName" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="jobType" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="marketing_DS" type="s:dateTime" />
+          <s:element minOccurs="1" maxOccurs="1" name="marketing_DE" type="s:dateTime" />
+          <s:element minOccurs="0" maxOccurs="1" name="marketing_nombre" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="listFiles" type="tns:ArrayOfString" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfString">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="string" nillable="true" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="getDeviceStatus">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="customerID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="deviceId" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getDeviceStatusResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="getDeviceStatusResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ReportConfiguration">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="o" type="tns:P_C" />
+            <s:element minOccurs="0" maxOccurs="1" name="customerID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="P_C">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="di" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="mac" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ip" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="li" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="L_dt" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="vapp" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="iv" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="a" type="tns:ArrayOfString" />
+          <s:element minOccurs="0" maxOccurs="1" name="adds" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="n" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="m" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="b" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="tz" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="oWI" type="tns:Info_Windows" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Info_Windows">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="HDI" type="tns:ArrayOfHD_I" />
+          <s:element minOccurs="0" maxOccurs="1" name="OSn" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="tm" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="l" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="wn" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="r" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="p" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfHD_I">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="HD_I" nillable="true" type="tns:HD_I" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="HD_I">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="fs" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ts" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="vn" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="ReportConfigurationResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ReportConfigurationResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ReportTransaction">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="aP_T" type="tns:ArrayOfP_T" />
+            <s:element minOccurs="0" maxOccurs="1" name="customerID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfP_T">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="P_T" nillable="true" type="tns:P_T" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="P_T">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="di" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="im" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="idT" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="idS" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ldt_s" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ldt_e" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="fn" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="a" type="tns:ArrayOfString" />
+          <s:element minOccurs="0" maxOccurs="1" name="aD" type="tns:ArrayOfString" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="ReportTransactionResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ReportTransactionResult" type="tns:ArrayOfR" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfR">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="R" nillable="true" type="tns:R" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="R">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="iCode" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="text" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="fn" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="ReportStatus_SW">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="oPEst" type="tns:P_S" />
+            <s:element minOccurs="0" maxOccurs="1" name="customerID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="P_S">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="di" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="idSt" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ldt" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="d" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="ReportStatus_SWResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ReportStatus_SWResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ReportStatus_Hw">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="aO" type="tns:ArrayOfP_Hw" />
+            <s:element minOccurs="0" maxOccurs="1" name="customerID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfP_Hw">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="P_Hw" nillable="true" type="tns:P_Hw" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="P_Hw">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="di" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="idHD" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ec" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ecd" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ldt_s" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="d" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="fn" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="ReportStatus_HwResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ReportStatus_HwResult" type="tns:ArrayOfR" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ReportStatus_Hw_Ext">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="aO" type="tns:ArrayOfP_Hw_Ext" />
+            <s:element minOccurs="0" maxOccurs="1" name="customerID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfP_Hw_Ext">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="P_Hw_Ext" nillable="true" type="tns:P_Hw_Ext" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="P_Hw_Ext">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="di" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="idHD" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ec" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ecd" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ldt_s" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="d" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ip" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="ReportStatus_Hw_ExtResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ReportStatus_Hw_ExtResult" type="tns:ArrayOfR" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ReportKeepAlive">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="deviceId" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="customerID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ReportKeepAliveResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ReportKeepAliveResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ReportUpdate">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="oUpd" type="tns:P_U" />
+            <s:element minOccurs="0" maxOccurs="1" name="customerID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="P_U">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="di" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="r" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="v" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ldt" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="ReportUpdateResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ReportUpdateResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ReportAlert">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="aA" type="tns:ArrayOfP_A" />
+            <s:element minOccurs="0" maxOccurs="1" name="customerID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfP_A">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="P_A" nillable="true" type="tns:P_A" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="P_A">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="di" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="idT" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ldt" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="d" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="fn" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="ReportAlertResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ReportAlertResult" type="tns:ArrayOfR" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetTerminalActiveCommandType">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="deviceId" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="customerID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetTerminalActiveCommandTypeResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetTerminalActiveCommandTypeResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetDeviceConfiguration">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="deviceId" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="customerID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetDeviceConfigurationResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetDeviceConfigurationResult" type="tns:P_C_Resp" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="P_C_Resp">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:P_C">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="iRespCode" type="s:int" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:element name="ReportCommandCompleted">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="deviceId" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="idCmmdType" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="localDT" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="customerID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ReportCommandCompletedResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ReportCommandCompletedResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ReportPerformance">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="o" type="tns:P_P" />
+            <s:element minOccurs="0" maxOccurs="1" name="customerID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="P_P">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="di" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="rau" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="pau" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ldt" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="ReportPerformanceResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ReportPerformanceResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ReportCounters">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="aP_T" type="tns:ArrayOfP_T" />
+            <s:element minOccurs="0" maxOccurs="1" name="customerID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ReportCountersResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ReportCountersResult" type="tns:ArrayOfR" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="getPendingJobsCountSoapIn">
+    <wsdl:part name="parameters" element="tns:getPendingJobsCount" />
+  </wsdl:message>
+  <wsdl:message name="getPendingJobsCountSoapOut">
+    <wsdl:part name="parameters" element="tns:getPendingJobsCountResponse" />
+  </wsdl:message>
+  <wsdl:message name="updateJobStateSoapIn">
+    <wsdl:part name="parameters" element="tns:updateJobState" />
+  </wsdl:message>
+  <wsdl:message name="updateJobStateSoapOut">
+    <wsdl:part name="parameters" element="tns:updateJobStateResponse" />
+  </wsdl:message>
+  <wsdl:message name="getPendingJobsInfoSoapIn">
+    <wsdl:part name="parameters" element="tns:getPendingJobsInfo" />
+  </wsdl:message>
+  <wsdl:message name="getPendingJobsInfoSoapOut">
+    <wsdl:part name="parameters" element="tns:getPendingJobsInfoResponse" />
+  </wsdl:message>
+  <wsdl:message name="getDeviceStatusSoapIn">
+    <wsdl:part name="parameters" element="tns:getDeviceStatus" />
+  </wsdl:message>
+  <wsdl:message name="getDeviceStatusSoapOut">
+    <wsdl:part name="parameters" element="tns:getDeviceStatusResponse" />
+  </wsdl:message>
+  <wsdl:message name="ReportConfigurationSoapIn">
+    <wsdl:part name="parameters" element="tns:ReportConfiguration" />
+  </wsdl:message>
+  <wsdl:message name="ReportConfigurationSoapOut">
+    <wsdl:part name="parameters" element="tns:ReportConfigurationResponse" />
+  </wsdl:message>
+  <wsdl:message name="ReportTransactionSoapIn">
+    <wsdl:part name="parameters" element="tns:ReportTransaction" />
+  </wsdl:message>
+  <wsdl:message name="ReportTransactionSoapOut">
+    <wsdl:part name="parameters" element="tns:ReportTransactionResponse" />
+  </wsdl:message>
+  <wsdl:message name="ReportStatus_SWSoapIn">
+    <wsdl:part name="parameters" element="tns:ReportStatus_SW" />
+  </wsdl:message>
+  <wsdl:message name="ReportStatus_SWSoapOut">
+    <wsdl:part name="parameters" element="tns:ReportStatus_SWResponse" />
+  </wsdl:message>
+  <wsdl:message name="ReportStatus_HwSoapIn">
+    <wsdl:part name="parameters" element="tns:ReportStatus_Hw" />
+  </wsdl:message>
+  <wsdl:message name="ReportStatus_HwSoapOut">
+    <wsdl:part name="parameters" element="tns:ReportStatus_HwResponse" />
+  </wsdl:message>
+  <wsdl:message name="ReportStatus_Hw_ExtSoapIn">
+    <wsdl:part name="parameters" element="tns:ReportStatus_Hw_Ext" />
+  </wsdl:message>
+  <wsdl:message name="ReportStatus_Hw_ExtSoapOut">
+    <wsdl:part name="parameters" element="tns:ReportStatus_Hw_ExtResponse" />
+  </wsdl:message>
+  <wsdl:message name="ReportKeepAliveSoapIn">
+    <wsdl:part name="parameters" element="tns:ReportKeepAlive" />
+  </wsdl:message>
+  <wsdl:message name="ReportKeepAliveSoapOut">
+    <wsdl:part name="parameters" element="tns:ReportKeepAliveResponse" />
+  </wsdl:message>
+  <wsdl:message name="ReportUpdateSoapIn">
+    <wsdl:part name="parameters" element="tns:ReportUpdate" />
+  </wsdl:message>
+  <wsdl:message name="ReportUpdateSoapOut">
+    <wsdl:part name="parameters" element="tns:ReportUpdateResponse" />
+  </wsdl:message>
+  <wsdl:message name="ReportAlertSoapIn">
+    <wsdl:part name="parameters" element="tns:ReportAlert" />
+  </wsdl:message>
+  <wsdl:message name="ReportAlertSoapOut">
+    <wsdl:part name="parameters" element="tns:ReportAlertResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetTerminalActiveCommandTypeSoapIn">
+    <wsdl:part name="parameters" element="tns:GetTerminalActiveCommandType" />
+  </wsdl:message>
+  <wsdl:message name="GetTerminalActiveCommandTypeSoapOut">
+    <wsdl:part name="parameters" element="tns:GetTerminalActiveCommandTypeResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetDeviceConfigurationSoapIn">
+    <wsdl:part name="parameters" element="tns:GetDeviceConfiguration" />
+  </wsdl:message>
+  <wsdl:message name="GetDeviceConfigurationSoapOut">
+    <wsdl:part name="parameters" element="tns:GetDeviceConfigurationResponse" />
+  </wsdl:message>
+  <wsdl:message name="ReportCommandCompletedSoapIn">
+    <wsdl:part name="parameters" element="tns:ReportCommandCompleted" />
+  </wsdl:message>
+  <wsdl:message name="ReportCommandCompletedSoapOut">
+    <wsdl:part name="parameters" element="tns:ReportCommandCompletedResponse" />
+  </wsdl:message>
+  <wsdl:message name="ReportPerformanceSoapIn">
+    <wsdl:part name="parameters" element="tns:ReportPerformance" />
+  </wsdl:message>
+  <wsdl:message name="ReportPerformanceSoapOut">
+    <wsdl:part name="parameters" element="tns:ReportPerformanceResponse" />
+  </wsdl:message>
+  <wsdl:message name="ReportCountersSoapIn">
+    <wsdl:part name="parameters" element="tns:ReportCounters" />
+  </wsdl:message>
+  <wsdl:message name="ReportCountersSoapOut">
+    <wsdl:part name="parameters" element="tns:ReportCountersResponse" />
+  </wsdl:message>
+  <wsdl:portType name="Service1Soap">
+    <wsdl:operation name="getPendingJobsCount">
+      <wsdl:input message="tns:getPendingJobsCountSoapIn" />
+      <wsdl:output message="tns:getPendingJobsCountSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="updateJobState">
+      <wsdl:input message="tns:updateJobStateSoapIn" />
+      <wsdl:output message="tns:updateJobStateSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="getPendingJobsInfo">
+      <wsdl:input message="tns:getPendingJobsInfoSoapIn" />
+      <wsdl:output message="tns:getPendingJobsInfoSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="getDeviceStatus">
+      <wsdl:input message="tns:getDeviceStatusSoapIn" />
+      <wsdl:output message="tns:getDeviceStatusSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ReportConfiguration">
+      <wsdl:input message="tns:ReportConfigurationSoapIn" />
+      <wsdl:output message="tns:ReportConfigurationSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ReportTransaction">
+      <wsdl:input message="tns:ReportTransactionSoapIn" />
+      <wsdl:output message="tns:ReportTransactionSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ReportStatus_SW">
+      <wsdl:input message="tns:ReportStatus_SWSoapIn" />
+      <wsdl:output message="tns:ReportStatus_SWSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ReportStatus_Hw">
+      <wsdl:input message="tns:ReportStatus_HwSoapIn" />
+      <wsdl:output message="tns:ReportStatus_HwSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ReportStatus_Hw_Ext">
+      <wsdl:input message="tns:ReportStatus_Hw_ExtSoapIn" />
+      <wsdl:output message="tns:ReportStatus_Hw_ExtSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ReportKeepAlive">
+      <wsdl:input message="tns:ReportKeepAliveSoapIn" />
+      <wsdl:output message="tns:ReportKeepAliveSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ReportUpdate">
+      <wsdl:input message="tns:ReportUpdateSoapIn" />
+      <wsdl:output message="tns:ReportUpdateSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ReportAlert">
+      <wsdl:input message="tns:ReportAlertSoapIn" />
+      <wsdl:output message="tns:ReportAlertSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetTerminalActiveCommandType">
+      <wsdl:input message="tns:GetTerminalActiveCommandTypeSoapIn" />
+      <wsdl:output message="tns:GetTerminalActiveCommandTypeSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetDeviceConfiguration">
+      <wsdl:input message="tns:GetDeviceConfigurationSoapIn" />
+      <wsdl:output message="tns:GetDeviceConfigurationSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ReportCommandCompleted">
+      <wsdl:input message="tns:ReportCommandCompletedSoapIn" />
+      <wsdl:output message="tns:ReportCommandCompletedSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ReportPerformance">
+      <wsdl:input message="tns:ReportPerformanceSoapIn" />
+      <wsdl:output message="tns:ReportPerformanceSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ReportCounters">
+      <wsdl:input message="tns:ReportCountersSoapIn" />
+      <wsdl:output message="tns:ReportCountersSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="Service1Soap" type="tns:Service1Soap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="getPendingJobsCount">
+      <soap:operation soapAction="http://tempuri.org/getPendingJobsCount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updateJobState">
+      <soap:operation soapAction="http://tempuri.org/updateJobState" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getPendingJobsInfo">
+      <soap:operation soapAction="http://tempuri.org/getPendingJobsInfo" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getDeviceStatus">
+      <soap:operation soapAction="http://tempuri.org/getDeviceStatus" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ReportConfiguration">
+      <soap:operation soapAction="http://tempuri.org/ReportConfiguration" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ReportTransaction">
+      <soap:operation soapAction="http://tempuri.org/ReportTransaction" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ReportStatus_SW">
+      <soap:operation soapAction="http://tempuri.org/ReportStatus_SW" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ReportStatus_Hw">
+      <soap:operation soapAction="http://tempuri.org/ReportStatus_Hw" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ReportStatus_Hw_Ext">
+      <soap:operation soapAction="http://tempuri.org/ReportStatus_Hw_Ext" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ReportKeepAlive">
+      <soap:operation soapAction="http://tempuri.org/ReportKeepAlive" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ReportUpdate">
+      <soap:operation soapAction="http://tempuri.org/ReportUpdate" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ReportAlert">
+      <soap:operation soapAction="http://tempuri.org/ReportAlert" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTerminalActiveCommandType">
+      <soap:operation soapAction="http://tempuri.org/GetTerminalActiveCommandType" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDeviceConfiguration">
+      <soap:operation soapAction="http://tempuri.org/GetDeviceConfiguration" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ReportCommandCompleted">
+      <soap:operation soapAction="http://tempuri.org/ReportCommandCompleted" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ReportPerformance">
+      <soap:operation soapAction="http://tempuri.org/ReportPerformance" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ReportCounters">
+      <soap:operation soapAction="http://tempuri.org/ReportCounters" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="Service1Soap12" type="tns:Service1Soap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="getPendingJobsCount">
+      <soap12:operation soapAction="http://tempuri.org/getPendingJobsCount" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updateJobState">
+      <soap12:operation soapAction="http://tempuri.org/updateJobState" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getPendingJobsInfo">
+      <soap12:operation soapAction="http://tempuri.org/getPendingJobsInfo" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getDeviceStatus">
+      <soap12:operation soapAction="http://tempuri.org/getDeviceStatus" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ReportConfiguration">
+      <soap12:operation soapAction="http://tempuri.org/ReportConfiguration" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ReportTransaction">
+      <soap12:operation soapAction="http://tempuri.org/ReportTransaction" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ReportStatus_SW">
+      <soap12:operation soapAction="http://tempuri.org/ReportStatus_SW" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ReportStatus_Hw">
+      <soap12:operation soapAction="http://tempuri.org/ReportStatus_Hw" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ReportStatus_Hw_Ext">
+      <soap12:operation soapAction="http://tempuri.org/ReportStatus_Hw_Ext" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ReportKeepAlive">
+      <soap12:operation soapAction="http://tempuri.org/ReportKeepAlive" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ReportUpdate">
+      <soap12:operation soapAction="http://tempuri.org/ReportUpdate" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ReportAlert">
+      <soap12:operation soapAction="http://tempuri.org/ReportAlert" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTerminalActiveCommandType">
+      <soap12:operation soapAction="http://tempuri.org/GetTerminalActiveCommandType" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDeviceConfiguration">
+      <soap12:operation soapAction="http://tempuri.org/GetDeviceConfiguration" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ReportCommandCompleted">
+      <soap12:operation soapAction="http://tempuri.org/ReportCommandCompleted" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ReportPerformance">
+      <soap12:operation soapAction="http://tempuri.org/ReportPerformance" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ReportCounters">
+      <soap12:operation soapAction="http://tempuri.org/ReportCounters" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="Service1">
+    <wsdl:port name="Service1Soap" binding="tns:Service1Soap">
+      <soap:address location="http://192.168.125.135:83/sstsWebService.asmx" />
+    </wsdl:port>
+    <wsdl:port name="Service1Soap12" binding="tns:Service1Soap12">
+      <soap12:address location="http://192.168.125.135:83/sstsWebService.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
