@@ -21,11 +21,44 @@ Module ModFunciones
         End Try
     End Function
 
-    Public Sub writeJournal(ByVal strTexto As String)
+    ' 1. AQUÍ AGREGAMOS EL PARÁMETRO OPCIONAL "omitirTimestamp"
+    Public Sub writeJournal(ByVal strTexto As String, Optional ByVal omitirTimestamp As Boolean = False)
 
         Try
-            strTexto = "*" & strTexto & "*" & vbCrLf
-            File.AppendAllText("C:\appMain\Journal\Journal.log", strTexto)
+            Dim timestamp As String = Format(Now(), "dd/MM/yy HH:mm:ss")
+            ' Reemplazar prefijos de placeholder "X[" por la secuencia ESC real (Chr(27) + "[")
+            Try
+                If strTexto.Contains("X[") Then
+                    strTexto = strTexto.Replace("X[", Chr(27) & "[")
+                End If
+                If strTexto.Contains("x[") Then
+                    strTexto = strTexto.Replace("x[", Chr(27) & "[")
+                End If
+                ' También soportar placeholder X( -> ESC(
+                If strTexto.Contains("X(") Then
+                    strTexto = strTexto.Replace("X(", Chr(27) & "(")
+                End If
+                If strTexto.Contains("x(") Then
+                    strTexto = strTexto.Replace("x(", Chr(27) & "(")
+                End If
+                If strTexto.Contains("X)") Then
+                    strTexto = strTexto.Replace("X)", Chr(27) & ")")
+                End If
+                If strTexto.Contains("x)") Then
+                    strTexto = strTexto.Replace("x)", Chr(27) & ")")
+                End If
+            Catch ex As Exception
+                ' Si falla la conversión, continuamos y escribimos el texto tal cual
+            End Try
+
+            ' 2. VALIDAMOS EL SWITCH ANTES DE ESCRIBIR
+            If omitirTimestamp Then
+                strTexto = strTexto & vbCrLf
+            Else
+                strTexto = timestamp & " " & strTexto & vbCrLf
+            End If
+
+            File.AppendAllText("C:\appMain\Journal\Journal.txt", strTexto)
         Catch ex As Exception
             log.Error("[Trace] [Error Journal]" + ex.Message)
         End Try

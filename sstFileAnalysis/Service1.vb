@@ -21,6 +21,13 @@ Public Class Service1
         cargaDefTxn()
         strRutaJournal = fileJounral
 
+        ' Normalizar el Journal existente al arrancar (reemplazar X[ por ESC y hacer backup)
+        Try
+            NormalizeExistingJournal()
+        Catch ex As Exception
+            log.Error("Error al normalizar Journal existente: " & ex.Message)
+        End Try
+
         bProcessing = False
         bProcessingTxn = False
         log.Debug("Service Iniciado appWhere v2.0.2")
@@ -182,6 +189,37 @@ Public Class Service1
             log.Error("error en createEventFileWatcher: " & ex.Message)
         End Try
 
+    End Sub
+
+    ''' <summary>
+    ''' Normaliza el archivo Journal existente en disco:
+    ''' - reemplaza los placeholders "X["/"x[" por la secuencia ESC (Chr(27) & "[")
+    ''' - elimina las secuencias "X)"/"x)"
+    ''' No añade timestamps a líneas históricas; sólo corrige los prefijos para que
+    ''' el archivo se muestre igual que el EJ sample.
+    ''' </summary>
+    Private Sub NormalizeExistingJournal()
+        Try
+            Dim journalPath As String = "C:\appMain\Journal\Journal.txt"
+            If Not File.Exists(journalPath) Then
+                log.Debug("NormalizeExistingJournal: Journal no existe: " & journalPath)
+                Exit Sub
+            End If
+
+            Dim original As String = File.ReadAllText(journalPath)
+            Dim normalized As String = original.Replace("x[", Chr(27) & "[").Replace("X[", Chr(27) & "[") _
+                                     .Replace("x(", Chr(27) & "(").Replace("X(", Chr(27) & "(") _
+                                     .Replace("X)", Chr(27) & "(").Replace("x)", Chr(27) & "(")
+
+            If Not normalized.Equals(original) Then
+                File.WriteAllText(journalPath, normalized)
+                log.Debug("NormalizeExistingJournal: Journal normalizado")
+            Else
+                log.Debug("NormalizeExistingJournal: Journal ya normalizado (no cambios)")
+            End If
+        Catch ex As Exception
+            log.Error("NormalizeExistingJournal error: " & ex.Message)
+        End Try
     End Sub
 
 

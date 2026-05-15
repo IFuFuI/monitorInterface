@@ -382,6 +382,19 @@ Module ModProcessJournal
             Try
                 sLineJournal = strTexto
 
+                Dim denom1 As String = Read_Ini("CDM", "DENOM_C1", file_ConfiAtm).Trim()
+                Dim denom2 As String = Read_Ini("CDM", "DENOM_C2", file_ConfiAtm).Trim()
+                Dim denom3 As String = Read_Ini("CDM", "DENOM_C3", file_ConfiAtm).Trim()
+                Dim denom4 As String = Read_Ini("CDM", "DENOM_C4", file_ConfiAtm).Trim()
+
+                If sLineJournal.Contains("DENOMINATION") Then
+                    ' Evaluamos si tiene la configuración de doble casetera de 500
+                    If denom1 = "100" AndAlso denom2 = "200" AndAlso denom3 = "500" AndAlso denom4 = "500" Then
+                        sLineJournal = "DENOMINATION          100   200   500   500"
+                    End If
+                    ' (Si es 50, 100, 200, 500 no entra al If y la línea pasa normalita)
+                End If
+
                 If sLineJournal.Contains("EMV LEVEL 2") Then bwrite = False
                 If sLineJournal.Contains("INT 04.") Then bwrite = False
                 If sLineJournal.Contains("CAM 04.00") Then bwrite = False
@@ -428,11 +441,21 @@ Module ModProcessJournal
                 If sLineJournal.Contains("X[0rX(1X)2X[000pX") Then bwrite = False
                 If sLineJournal.Contains("[0r(1)2[000p") Then bwrite = False
 
-                sLineJournal = sLineJournal.Replace("[05p", "")
-                sLineJournal = sLineJournal.Replace("X[05p", "")
-                sLineJournal = sLineJournal.Replace("[020t", "")
-                sLineJournal = sLineJournal.Replace("X[020t", "")
-                sLineJournal = sLineJournal.Replace("[00p", "")
+                ' Cambiamos la 'X' o 'x' de vuelta al caracter ESC (ASCII 27)
+                If sLineJournal.Contains("X[") Then sLineJournal = sLineJournal.Replace("X[", Chr(27) & "[")
+                If sLineJournal.Contains("x[") Then sLineJournal = sLineJournal.Replace("x[", Chr(27) & "[")
+                If sLineJournal.Contains("X(") Then sLineJournal = sLineJournal.Replace("X(", Chr(27) & "(")
+                If sLineJournal.Contains("x(") Then sLineJournal = sLineJournal.Replace("x(", Chr(27) & "(")
+
+                If sLineJournal.Contains("X)") Then sLineJournal = sLineJournal.Replace("X)", Chr(27) & "]")
+                If sLineJournal.Contains("x)") Then sLineJournal = sLineJournal.Replace("x)", Chr(27) & "]")
+
+                ' Por si alguna secuencia llega con un espacio en lugar de X
+                If sLineJournal.Contains(" [") Then sLineJournal = sLineJournal.Replace(" [", Chr(27) & "[")
+
+                ' --- 3. TRADUCCIÓN DE FECHA ---
+                sLineJournal = sLineJournal.Replace("FECHA", "DATE")
+                sLineJournal = sLineJournal.Replace("Fecha", "Date")
 
                 sLineJournal = sLineJournal + vbCrLf
             Catch ex As Exception
@@ -441,6 +464,17 @@ Module ModProcessJournal
 
             Try
                 If bwrite Then
+
+                    ' --------------- INICIO DEL FIX ----------------
+                    ' Interceptamos la linea para quitar la fecha de los CASSETTES
+                    If sLineJournal.ToUpper().Contains("CASSETTE") Then
+                        If IsCounterCassetteLine(sLineJournal) Then
+                            ' Retiramos el timestamp crudo de esta línea
+                            sLineJournal = StripJournalTimestamp(sLineJournal)
+                        End If
+                    End If
+                    ' --------------- FIN DEL FIX -------------------
+
                     File.AppendAllText(sDSCJournal, sLineJournal)
 
                     If onTxn Then
@@ -932,6 +966,32 @@ Module ModProcessJournal
             iParam = iParam + 1
         Next
         Return arrPizarra
+    End Function
+
+    ''' <summary>
+    ''' Elimina un prefijo de fecha y hora que aparece en el journal.
+    ''' </summary>
+    Private Function StripJournalTimestamp(input As String) As String
+        Try
+            ' Elimina formato tipo "24/03/26 09:32:31 " al inicio del string
+            Dim rx As New Regex("^\d{2}/\d{2}/\d{2}\s+\d{2}:\d{2}:\d{2}\s*")
+            Return rx.Replace(input, "", 1)
+        Catch ex As Exception
+            Return input
+        End Try
+    End Function
+
+    ''' <summary>
+    ''' Devuelve true si la línea parece ser de contador de cassette.
+    ''' </summary>
+    Private Function IsCounterCassetteLine(input As String) As Boolean
+        Try
+            ' Busca la palabra CASSETTE seguida de varios números (formato de contadores)
+            Dim rx As New Regex("CASSETTE\s+\d{2,}\s+\d{2,}", RegexOptions.IgnoreCase)
+            Return rx.IsMatch(input)
+        Catch ex As Exception
+            Return False
+        End Try
     End Function
 
 End Module

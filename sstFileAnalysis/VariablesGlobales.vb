@@ -3,7 +3,7 @@
     Public Const strIniMerge As String = "C:\appCloudAgent\dat\sstFileAnalysisMerge.dat"
     Public Const strFileDefinicionXML As String = "C:\appCloudAgent\xml\FileAnalysisConfigJournal.xml"
     Public Const strPathCopyJournal As String = "C:\appCloudAgent\temp\EjT.txt"
-    Public Const sDSCJournal As String = "C:\appMain\Journal\Journal.log"
+    Public Const sDSCJournal As String = "C:\appMain\Journal\Journal.txt"
     Public Const strPathMessage As String = "C:\appCloudAgent\queue\"
     Public Const file_Work As String = "C:\appMain\work\work.ini"
     Public Const fileJounral As String = "C:\Program Files (x86)\NCR APTRA\Advance NDC\Data\"
