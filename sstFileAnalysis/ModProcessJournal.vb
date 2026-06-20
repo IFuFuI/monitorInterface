@@ -457,6 +457,59 @@ Module ModProcessJournal
                 sLineJournal = sLineJournal.Replace("FECHA", "DATE")
                 sLineJournal = sLineJournal.Replace("Fecha", "Date")
 
+                ' --- 4. ALINEACIÓN FORZADA Y EXACTA PARA EL TICKET DE CONTADORES ---
+                Try
+                    ' 1. Alinear los prefijos a 13 posiciones exactas.
+                    If Not sLineJournal.Contains("CASSETTE INFORMATION") Then
+                        sLineJournal = Regex.Replace(sLineJournal, "^\s*CASSETTE\s+", " CASSETTE    ")
+                    End If
+                    sLineJournal = Regex.Replace(sLineJournal, "^\s*\+REJECTED\s+", "+REJECTED    ")
+                    sLineJournal = Regex.Replace(sLineJournal, "^\s*=REMAINING\s+", "=REMAINING   ")
+                    sLineJournal = Regex.Replace(sLineJournal, "^\s*\+DISPENSED\s+", "+DISPENSED   ")
+                    sLineJournal = Regex.Replace(sLineJournal, "^\s*=TOTAL\s+", "=TOTAL       ")
+
+                    ' 2. Alinear TYPE 1 y TYPE 2:
+                    If sLineJournal.Contains("TYPE 1") AndAlso sLineJournal.Contains("TYPE 2") Then
+                        If sLineJournal.Contains("p") Then
+                            ' ¡CORREGIDO! Restamos 10 espacios para compensar el comando (ESC[020tESC[05p)
+                            ' Solo dejamos 3 espacios para que visualmente se alinee en el TXT.
+                            sLineJournal = Regex.Replace(sLineJournal, "p\s*TYPE 1\s*TYPE 2", "p   TYPE 1     TYPE 2")
+                        Else
+                            ' Si no trae comando (ticket del Config), sí lleva sus 13 espacios normales
+                            sLineJournal = Regex.Replace(sLineJournal, "^\s*TYPE 1\s*TYPE 2", "             TYPE 1     TYPE 2")
+                        End If
+                    End If
+
+                    ' 3. Alinear TYPE 3 y TYPE 4
+                    If sLineJournal.Contains("TYPE 3") AndAlso sLineJournal.Contains("TYPE 4") Then
+                        sLineJournal = Regex.Replace(sLineJournal, "^\s*TYPE 3\s*TYPE 4", "             TYPE 3     TYPE 4")
+                    End If
+
+                    ' 4. LAST CLEARED (con un espacio para que cuadre con CASSETTE)
+                    If sLineJournal.Contains("LAST CLEARED") Then
+                        sLineJournal = Regex.Replace(sLineJournal, "^\s*LAST CLEARED\s+", " LAST CLEARED  ")
+                    End If
+                    If sLineJournal.Contains("BORRADOS") Then
+                        sLineJournal = Regex.Replace(sLineJournal, "^\s*BORRADOS\s+", " LAST CLEARED  ")
+                    End If
+                Catch ex As Exception
+                End Try
+                ' -----------------------------------------------------------
+
+                ' --- 5. RELLENAR CON CEROS LOS CONTADORES DE CASSETTES ---
+                ' Convierte "CASS 1 =   100" a "CASS 1 = 00100"
+                If sLineJournal.Contains("CASS ") AndAlso sLineJournal.Contains("=") Then
+                    For c As Integer = 1 To 8
+                        Dim pref As String = "CASS " & c & " ="
+                        ' Reemplazamos los espacios sobrantes por la cantidad exacta de ceros
+                        sLineJournal = sLineJournal.Replace(pref & "     ", pref & " 0000")
+                        sLineJournal = sLineJournal.Replace(pref & "    ", pref & " 000")
+                        sLineJournal = sLineJournal.Replace(pref & "   ", pref & " 00")
+                        sLineJournal = sLineJournal.Replace(pref & "  ", pref & " 0")
+                    Next
+                End If
+                ' -----------------------------------------------------------
+
                 sLineJournal = sLineJournal + vbCrLf
             Catch ex As Exception
 
