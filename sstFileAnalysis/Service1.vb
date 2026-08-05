@@ -11,6 +11,9 @@ Public Class Service1
     Dim strRutaInterface As String = "C:\appMain\work\mvInterface.ini"
     Private timerTxn As Timer = Nothing
     Private timerInterface As Timer = Nothing
+    Private journalWatcher As FileSystemWatcher = Nothing
+    Private ReadOnly journalProcessingSync As New Object()
+    Private journalChangePending As Boolean = False
     Private Shared ReadOnly log As log4net.ILog = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType)
 
     Protected Overrides Sub OnStart(ByVal args() As String)
@@ -179,12 +182,12 @@ Public Class Service1
 
     Private Sub createEventFileWatcher(ByVal strDirectory)
         Try
-            Dim watcher As New FileSystemWatcher()
-            watcher.Path = strDirectory
-            watcher.IncludeSubdirectories = False
-            watcher.NotifyFilter = (NotifyFilters.LastAccess Or NotifyFilters.LastWrite Or NotifyFilters.FileName Or NotifyFilters.DirectoryName)
-            AddHandler watcher.Changed, AddressOf OnChanged
-            watcher.EnableRaisingEvents = True
+            journalWatcher = New FileSystemWatcher()
+            journalWatcher.Path = strDirectory
+            journalWatcher.IncludeSubdirectories = False
+            journalWatcher.NotifyFilter = (NotifyFilters.LastAccess Or NotifyFilters.LastWrite Or NotifyFilters.FileName Or NotifyFilters.DirectoryName)
+            AddHandler journalWatcher.Changed, AddressOf OnChanged
+            journalWatcher.EnableRaisingEvents = True
         Catch ex As Exception
             log.Error("error en createEventFileWatcher: " & ex.Message)
         End Try
@@ -255,23 +258,58 @@ Public Class Service1
 
     Private Sub OnChanged(ByVal source As Object, ByVal e As FileSystemEventArgs)
         If isFileAJournal(e.Name) = False Then Exit Sub
-        'Validamos si el archivo que cambio, no esta en la lista de archivos que no se procesan.
-        If bProcessing Then Exit Sub
-
-        If e.Name = "EJDATA.LOG" Then
-            'log.Debug("ARCHIVO A LEER: " & e.Name)
-            'log.Debug("JOURNAL CAMBIO: " & e.Name)
-
-            'Se realiza proceso de copiar la journal para mejor lecutra 
-            My.Computer.FileSystem.CopyFile(strRutaJournal & def_B_TXN.oneJournalFile, secondPath & def_B_TXN.oneJournalFile, True)
-            readJournal(secondPath, e.Name)
-
-
-        Else
+        If e.Name <> "EJDATA.LOG" Then
             log.Debug("El nombre no es de la Journal" + e.Name)
+            Exit Sub
         End If
 
-        'End If
+        Dim startProcessing As Boolean = False
+
+        ' FileSystemWatcher puede disparar varios eventos mientras se procesa el archivo.
+        ' Conservamos al menos un cambio pendiente en vez de descartarlo.
+        SyncLock journalProcessingSync
+            journalChangePending = True
+            If Not bProcessing Then
+                bProcessing = True
+                startProcessing = True
+            End If
+        End SyncLock
+
+        If startProcessing Then
+            Threading.ThreadPool.QueueUserWorkItem(AddressOf ProcessPendingJournalChanges, e.Name)
+        End If
+    End Sub
+
+    Private Sub ProcessPendingJournalChanges(ByVal state As Object)
+        Dim journalName As String = CStr(state)
+
+        Do
+            Try
+                ' Esperamos a que termine la ráfaga de escritura y sólo entonces
+                ' tomamos una copia actualizada del EJDATA.
+                Threading.Thread.Sleep(10000)
+
+                ' Los avisos recibidos durante la espera ya estarán incluidos en esta
+                ' copia. Sólo repetimos si aparece otro cambio desde este punto.
+                SyncLock journalProcessingSync
+                    journalChangePending = False
+                End SyncLock
+
+                My.Computer.FileSystem.CopyFile(strRutaJournal & def_B_TXN.oneJournalFile,
+                                                 secondPath & def_B_TXN.oneJournalFile, True)
+                readJournal(secondPath, journalName)
+            Catch ex As Exception
+                log.Error("Error al procesar cambio de Journal: " & ex.Message)
+            End Try
+
+            Dim repeatProcessing As Boolean
+            SyncLock journalProcessingSync
+                repeatProcessing = journalChangePending
+                If Not repeatProcessing Then bProcessing = False
+            End SyncLock
+
+            If Not repeatProcessing Then Exit Do
+        Loop
     End Sub
 
 
@@ -382,7 +420,6 @@ Public Class Service1
 
         'Variable con el numero de lineas del archivo
         Dim intNumLinesCopyFile As Integer = 0
-        Dim strLinesFiles As String = ""
         Dim arrayStrLines(0) As String ' Este es el array que utilizaremos para checar las transacciones
         Dim objReader As StreamReader
 
@@ -399,9 +436,6 @@ Public Class Service1
         Try
             'valida que exista la copia
             If File.Exists(strTmpOriginalJournalFile) Then
-                'Agregamos un caracter en blanco porque si la ultima linea esta en blanco no la cuenta la funcion ReadAllLines
-                File.AppendAllText(strTmpOriginalJournalFile, " ")
-
                 objReader = New System.IO.StreamReader(strTmpOriginalJournalFile)
                 intNumLinesCopyFile = 0
                 intNumLinesCopyFile = File.ReadAllLines(strTmpOriginalJournalFile).Length
@@ -427,16 +461,18 @@ Public Class Service1
                     'log.Info("File Changed")
                     Dim intCounterLinesCopyFile As Integer = 0 'Variable de control para leer la primera linea
                     'Leer linea a linea hasta el final
-                    Dim bwrite As Boolean = True
                     Do While Not objReader.EndOfStream
                         If intCounterLinesCopyFile = CInt(strFinalLineLastJournal) Then 'Si el contador es igual al numero total de lineas de la Journal 
                             'Encontro la ultima linea que leimos, leyendo las siguientes lineas y terminamos
                             'log.Info("Encontro la ultima linea leida")
-                            bwrite = True
-                            strLinesFiles = objReader.ReadToEnd
-                            'log.Debug("Linea Encontrada: " + strLinesFiles)
-
-                            arrayStrLines = strLinesFiles.Split(vbNewLine)
+                            ' ReadLine reconoce CR, LF y CRLF. EJDATA.LOG utiliza CR,
+                            ' por lo que dividir únicamente con vbNewLine puede agrupar
+                            ' varios registros y provocar que se filtren como un bloque.
+                            Dim pendingLines As New List(Of String)()
+                            Do While Not objReader.EndOfStream
+                                pendingLines.Add(objReader.ReadLine())
+                            Loop
+                            arrayStrLines = pendingLines.ToArray()
                             objReader.Close()
                             objReader.Dispose()
                             objReader = Nothing
@@ -549,9 +585,6 @@ Public Class Service1
         Dim pathSource As String = strPath & strNameJournal
         Dim strText As String = ""
 
-        bProcessing = True
-        Threading.Thread.Sleep(10000)
-
         Try
             If My.Computer.FileSystem.FileExists(pathSource) Then
                 'Dim strTextFile As String
@@ -609,10 +642,8 @@ Public Class Service1
             Else
                 'log.Error("pathNotFound: " & pathSource)
             End If
-            bProcessing = False
         Catch ex As Exception
             log.Error("error en readFile: " & ex.Message)
-            bProcessing = False
         End Try
 
         Try

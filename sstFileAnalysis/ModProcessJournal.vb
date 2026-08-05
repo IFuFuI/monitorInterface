@@ -16,6 +16,7 @@ Module ModProcessJournal
     Dim onTxn As Boolean = False
     Dim sMsgIn As String = String.Empty
     Dim bMsgIn As Boolean = False
+    Dim skipContactlessTransactionContinuation As Boolean = False
 
     Private ReadOnly log As log4net.ILog = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType)
 
@@ -358,6 +359,21 @@ Module ModProcessJournal
         Dim sLineJournal As String = String.Empty
 
         bwrite = True
+
+        ' Este bloque no se escribe en nuestro journal porque contactless no se utiliza:
+        '   *INITIALIZED CONTACTLESS
+        '   TRANSACTION*
+        ' El archivo de origen se conserva sin cambios.
+        If strTexto.IndexOf("*INITIALIZED CONTACTLESS", StringComparison.OrdinalIgnoreCase) >= 0 Then
+            bwrite = False
+            skipContactlessTransactionContinuation = True
+        ElseIf skipContactlessTransactionContinuation AndAlso
+               String.Equals(strTexto.Trim(), "TRANSACTION*", StringComparison.OrdinalIgnoreCase) Then
+            bwrite = False
+            skipContactlessTransactionContinuation = False
+        Else
+            skipContactlessTransactionContinuation = False
+        End If
 
         If strTexto.Contains("DEBUG NO INICIALIZADO") Then
             log.Debug("DEBUG NO INICIALIZADO Aplica Reinicio")
