@@ -10,6 +10,12 @@
     Public Const fileMerge As String = "C:\Program Files (x86)\NCR APTRA\Advance NDC\Debug\"
     Public Const file_Interface As String = "C:\appMain\work\mvInterface.ini"
     Public Const file_ConfiAtm As String = "C:\appMain\config\appConfigAtm.ini"
+    Public Const fileRuntimeConfig As String = "C:\appMain\config\runtime.ini"
+    Public Const strPathAppCommsLog As String = "C:\appMain\log\"
+
+    Public Function CurrentAppCommsLogPath() As String
+        Return strPathAppCommsLog & Format(Now(), "yyyyMMdd") & "_appComms.log"
+    End Function
 
     Public Const strEOL As String = "%EOL%"
     Public statusATM As Boolean = False 'Variable que indica el estatus del ATM

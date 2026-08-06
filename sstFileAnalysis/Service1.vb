@@ -12,6 +12,7 @@ Public Class Service1
     Private timerTxn As Timer = Nothing
     Private timerInterface As Timer = Nothing
     Private journalWatcher As FileSystemWatcher = Nothing
+    Private appCommsCommandRejectMonitor As AppCommsCommandRejectMonitor = Nothing
     Private ReadOnly journalProcessingSync As New Object()
     Private journalChangePending As Boolean = False
     Private Shared ReadOnly log As log4net.ILog = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType)
@@ -37,6 +38,7 @@ Public Class Service1
 
         log.Debug("Escuchando...")
         createEventFileWatcher(strRutaJournal)
+        StartAppCommsCommandRejectMonitor()
 
         Try
             log.Debug("Activa timer Txn")
@@ -58,6 +60,42 @@ Public Class Service1
             log.Error("Error al iniciar timerTxn: " + ex.Message)
         End Try
 
+    End Sub
+
+    Protected Overrides Sub OnStop()
+        Try
+            If timerTxn IsNot Nothing Then timerTxn.Stop()
+            If timerInterface IsNot Nothing Then timerInterface.Stop()
+            If journalWatcher IsNot Nothing Then journalWatcher.EnableRaisingEvents = False
+            If appCommsCommandRejectMonitor IsNot Nothing Then appCommsCommandRejectMonitor.Dispose()
+        Catch ex As Exception
+            log.Error("Error al detener servicio: " & ex.Message)
+        End Try
+    End Sub
+
+    Private Sub StartAppCommsCommandRejectMonitor()
+        Try
+            WritePrivateProfileString("COMMANDREJECT", "ACC", "NO", fileRuntimeConfig)
+
+            appCommsCommandRejectMonitor = New AppCommsCommandRejectMonitor()
+            AddHandler appCommsCommandRejectMonitor.CommandRejectDetected, AddressOf OnCommandRejectDetected
+            appCommsCommandRejectMonitor.Start()
+        Catch ex As Exception
+            log.Error("Error al iniciar monitor appComms Command Reject: " & ex.Message)
+        End Try
+    End Sub
+
+    Private Sub OnCommandRejectDetected(ByVal sender As Object, ByVal e As CommandRejectDetectedEventArgs)
+        Try
+            writeJournal("Command Reject recibido")
+            writeJournal("HOST NO DISPONIBLE")
+            writeJournal("Código = " & e.Code)
+            writeJournal("Hora = " & e.MessageTime)
+
+            WritePrivateProfileString("COMMANDREJECT", "ACC", "YES", fileRuntimeConfig)
+        Catch ex As Exception
+            log.Error("Error en OnCommandRejectDetected: " & ex.Message)
+        End Try
     End Sub
 
     Private Sub timerInterface_Elapsed(ByVal sender As System.Object, ByVal e As ElapsedEventArgs)

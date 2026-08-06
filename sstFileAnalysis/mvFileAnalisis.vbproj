@@ -80,6 +80,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Def_Busq_Transaccion.vb" />
+    <Compile Include="AppCommsCommandRejectMonitor.vb" />
     <Compile Include="ModFunciones.vb" />
     <Compile Include="ModProcessJournal.vb" />
     <Compile Include="My Project\Application.Designer.vb">
